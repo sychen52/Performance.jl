@@ -1,6 +1,7 @@
 using Performance
 using BenchmarkTools
 using Test
+using SparseArrays
 
 @testset "structs" begin
     ##
@@ -25,5 +26,11 @@ using Test
     @test @inferred(a[2]) === 20.0f0
     @test @inferred(a[4]) === 0.0f0
     a = DefaultArray(Float32[10, 20, 30], nothing)
-    @test eltype(a) === Union{Nothing, Float32}
+    @test eltype(a) === Union{Nothing,Float32}
+    a = DefaultArray(sparsevec([1, 2^62], [1, 2]), 2.1f0)
+    @test @inferred(a[1]) === 1.0f0
+    @test @inferred(a[4]) === 0.0f0
+    @test @inferred(a[-1]) === 2.1f0
+    @show typeof(a.parentarray)
+    @test typeof(a.parentarray) == SparseVector{Float32,Int64}
 end
