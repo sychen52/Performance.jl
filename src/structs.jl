@@ -1,7 +1,7 @@
 export DefaultArray
 
 # To solve this problem, you'll have to improve the `struct` definition and modify/add constructors
-struct DefaultArray{A,N,T} <: AbstractArray{T,N}
+struct DefaultArray{A,N,T} <: AbstractArray{T,N} where {A<:AbstractArray{T,N}}
     parentarray::A
     defaultvalue::T
 end

@@ -2,7 +2,7 @@ export Operator, Plus, Minus, Times, Divide
 export calculate_typed, calculate_branch
 
 abstract type Operator end
-struct Plus  <: Operator end
+struct Plus <: Operator end
 struct Minus <: Operator end
 struct Times <: Operator end
 struct Divide <: Operator end
@@ -64,5 +64,21 @@ function calculate_branch(numbers::AbstractVector{<:Real}, operations::AbstractS
     # iterate through the characters in `operations` (which will all be one of `+`, `-`, `*`, `/`)
     # Do not create an Operator from the character, instead just use a set of `if...elseif...end`
     # conditionals.
-    error("you have to implement this function")
+    a = Float64(numbers[1])
+    for i = 1:length(operations)
+        b = numbers[i+1]
+        op = operations[i]
+        if op == '+'
+            a += b
+        elseif op == '-'
+            a -= b
+        elseif op == '*'
+            a *= b
+        elseif op == '/'
+            a /= b
+        else
+            error("operator not supported: $op")
+        end
+    end
+    return a
 end
